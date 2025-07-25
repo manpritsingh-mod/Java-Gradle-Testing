@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Calculator Tests" tests="28" skipped="0" failures="0" errors="0" timestamp="2025-07-25T09:05:14" hostname="DESKTOP-PFEQEJL" time="0.653">
+  <properties/>
+  <testcase name="Circle area calculation should work correctly" classname="com.example.calculator.CalculatorTest" time="0.319"/>
+  <testcase name="[1] 2.0, 3, 8.0" classname="com.example.calculator.CalculatorTest" time="0.045"/>
+  <testcase name="[2] 3.0, 2, 9.0" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[3] 5.0, 0, 1.0" classname="com.example.calculator.CalculatorTest" time="0.005"/>
+  <testcase name="[4] 2.0, -2, 0.25" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[5] 10.0, 1, 10.0" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="Multiplication should work correctly" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="Addition should work correctly" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="Circle area with zero radius" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="Division by zero should throw exception" classname="com.example.calculator.CalculatorTest" time="0.01"/>
+  <testcase name="[1] 1" classname="com.example.calculator.CalculatorTest" time="0.006"/>
+  <testcase name="[2] 3" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[3] 5" classname="com.example.calculator.CalculatorTest" time="0.004"/>
+  <testcase name="[4] 7" classname="com.example.calculator.CalculatorTest" time="0.006"/>
+  <testcase name="[5] 9" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[6] -1" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[7] -3" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[8] -5" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[1] 2" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="[2] 4" classname="com.example.calculator.CalculatorTest" time="0.002"/>
+  <testcase name="[3] 6" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="[4] 8" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="[5] 10" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="[6] 0" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="[7] -2" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="[8] -4" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="Division should work correctly" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="Subtraction should work correctly" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

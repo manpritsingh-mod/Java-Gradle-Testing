@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculatorApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jenkins-gradle-test</a> &gt; <a href="index.source.html" class="el_package">com.example.calculator</a> &gt; <span class="el_source">CalculatorApp.java</span></div><h1>CalculatorApp.java</h1><pre class="source lang-java linenums">package com.example.calculator;
+
+import java.util.Scanner;
+
+/**
+ * Main application class for the calculator.
+ * This class contains the main method and user interface.
+ */
+<span class="nc" id="L9">public class CalculatorApp {</span>
+    
+<span class="nc" id="L11">    private static final Calculator calculator = new Calculator();</span>
+    
+    /**
+     * Main method to run the calculator application.
+     * @param args command line arguments
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L18">        Scanner scanner = new Scanner(System.in);</span>
+        
+<span class="nc" id="L20">        System.out.println(&quot;Simple Calculator&quot;);</span>
+<span class="nc" id="L21">        System.out.println(&quot;Available operations: +, -, *, /, ^, area, even&quot;);</span>
+<span class="nc" id="L22">        System.out.println(&quot;Type 'quit' to exit&quot;);</span>
+        
+        while (true) {
+<span class="nc" id="L25">            System.out.print(&quot;Enter operation: &quot;);</span>
+<span class="nc" id="L26">            String operation = scanner.nextLine().trim();</span>
+            
+<span class="nc bnc" id="L28" title="All 2 branches missed.">            if (&quot;quit&quot;.equalsIgnoreCase(operation)) {</span>
+<span class="nc" id="L29">                break;</span>
+            }
+            
+            try {
+<span class="nc" id="L33">                processOperation(operation, scanner);</span>
+<span class="nc" id="L34">            } catch (Exception e) {</span>
+<span class="nc" id="L35">                System.out.println(&quot;Error: &quot; + e.getMessage());</span>
+<span class="nc" id="L36">            }</span>
+<span class="nc" id="L37">        }</span>
+        
+<span class="nc" id="L39">        scanner.close();</span>
+<span class="nc" id="L40">        System.out.println(&quot;Calculator closed.&quot;);</span>
+<span class="nc" id="L41">    }</span>
+    
+    private static void processOperation(String operation, Scanner scanner) {
+<span class="nc bnc" id="L44" title="All 8 branches missed.">        switch (operation) {</span>
+            case &quot;+&quot;:
+<span class="nc" id="L46">                performBinaryOperation(&quot;addition&quot;, scanner, calculator::add);</span>
+<span class="nc" id="L47">                break;</span>
+            case &quot;-&quot;:
+<span class="nc" id="L49">                performBinaryOperation(&quot;subtraction&quot;, scanner, calculator::subtract);</span>
+<span class="nc" id="L50">                break;</span>
+            case &quot;*&quot;:
+<span class="nc" id="L52">                performBinaryOperation(&quot;multiplication&quot;, scanner, calculator::multiply);</span>
+<span class="nc" id="L53">                break;</span>
+            case &quot;/&quot;:
+<span class="nc" id="L55">                performBinaryOperation(&quot;division&quot;, scanner, calculator::divide);</span>
+<span class="nc" id="L56">                break;</span>
+            case &quot;^&quot;:
+<span class="nc" id="L58">                performPowerOperation(scanner);</span>
+<span class="nc" id="L59">                break;</span>
+            case &quot;area&quot;:
+<span class="nc" id="L61">                performAreaOperation(scanner);</span>
+<span class="nc" id="L62">                break;</span>
+            case &quot;even&quot;:
+<span class="nc" id="L64">                performEvenCheck(scanner);</span>
+<span class="nc" id="L65">                break;</span>
+            default:
+<span class="nc" id="L67">                System.out.println(&quot;Unknown operation: &quot; + operation);</span>
+        }
+<span class="nc" id="L69">    }</span>
+    
+    private static void performBinaryOperation(String operationName, Scanner scanner, BinaryOperation op) {
+<span class="nc" id="L72">        System.out.print(&quot;Enter first number: &quot;);</span>
+<span class="nc" id="L73">        double a = Double.parseDouble(scanner.nextLine());</span>
+<span class="nc" id="L74">        System.out.print(&quot;Enter second number: &quot;);</span>
+<span class="nc" id="L75">        double b = Double.parseDouble(scanner.nextLine());</span>
+        
+<span class="nc" id="L77">        double result = op.apply(a, b);</span>
+<span class="nc" id="L78">        System.out.println(&quot;Result of &quot; + operationName + &quot;: &quot; + result);</span>
+<span class="nc" id="L79">    }</span>
+    
+    private static void performPowerOperation(Scanner scanner) {
+<span class="nc" id="L82">        System.out.print(&quot;Enter base: &quot;);</span>
+<span class="nc" id="L83">        double base = Double.parseDouble(scanner.nextLine());</span>
+<span class="nc" id="L84">        System.out.print(&quot;Enter exponent: &quot;);</span>
+<span class="nc" id="L85">        int exponent = Integer.parseInt(scanner.nextLine());</span>
+        
+<span class="nc" id="L87">        double result = calculator.power(base, exponent);</span>
+<span class="nc" id="L88">        System.out.println(&quot;Result: &quot; + result);</span>
+<span class="nc" id="L89">    }</span>
+    
+    private static void performAreaOperation(Scanner scanner) {
+<span class="nc" id="L92">        System.out.print(&quot;Enter radius: &quot;);</span>
+<span class="nc" id="L93">        double radius = Double.parseDouble(scanner.nextLine());</span>
+        
+<span class="nc" id="L95">        double area = calculator.calculateCircleArea(radius);</span>
+<span class="nc" id="L96">        System.out.println(&quot;Circle area: &quot; + area);</span>
+<span class="nc" id="L97">    }</span>
+    
+    private static void performEvenCheck(Scanner scanner) {
+<span class="nc" id="L100">        System.out.print(&quot;Enter integer: &quot;);</span>
+<span class="nc" id="L101">        int number = Integer.parseInt(scanner.nextLine());</span>
+        
+<span class="nc" id="L103">        boolean isEven = calculator.isEven(number);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        System.out.println(number + &quot; is &quot; + (isEven ? &quot;even&quot; : &quot;odd&quot;));</span>
+<span class="nc" id="L105">    }</span>
+    
+    @FunctionalInterface
+    private interface BinaryOperation {
+        double apply(double a, double b);
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

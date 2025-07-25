@@ -1,0 +1,17 @@
+project_language: java-gradle
+runUnitTests: true
+runLintTests: true
+
+tool_for_unit_testing:
+  java: junit
+
+tool_for_lint_testing:
+  java: checkstyle
+
+notifications:
+  email:
+    recipients:
+      - smanprit022@gmail.com
+  slack:
+    enabled: false
+    channel: "#builds"
