@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Full Regression Test Suite" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-08-06T12:27:14" hostname="DESKTOP-PFEQEJL" time="0.334">
+  <properties/>
+  <testcase name="All user workflows should work end-to-end" classname="com.example.regression.FullRegressionTest" time="0.133"/>
+  <testcase name="Security features should remain intact" classname="com.example.regression.FullRegressionTest" time="0.134"/>
+  <testcase name="Data integrity should be maintained" classname="com.example.regression.FullRegressionTest" time="0.001"/>
+  <testcase name="Performance under load should be acceptable" classname="com.example.regression.FullRegressionTest" time="0.005"/>
+  <testcase name="[1] user1" classname="com.example.regression.FullRegressionTest" time="0.089"/>
+  <testcase name="[2] user2" classname="com.example.regression.FullRegressionTest" time="0.002"/>
+  <testcase name="[3] user3" classname="com.example.regression.FullRegressionTest" time="0.001"/>
+  <testcase name="[4] admin" classname="com.example.regression.FullRegressionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

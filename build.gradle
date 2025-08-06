@@ -33,6 +33,22 @@ application {
 
 test {
     useJUnitPlatform()
+    
+    // Configure test profiles for different test types
+    if (project.hasProperty('smoke')) {
+        include '**/smoke/**/*Test.class'
+        include '**/*SmokeTest.class'
+    } else if (project.hasProperty('sanity')) {
+        include '**/sanity/**/*Test.class'
+        include '**/*SanityTest.class'
+    } else if (project.hasProperty('regression')) {
+        include '**/regression/**/*Test.class'
+        include '**/*RegressionTest.class'
+    }
+    
+    // Default behavior - run all tests if no profile specified
+    systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
+    systemProperty 'junit.jupiter.execution.parallel.mode.default', 'concurrent'
 }
 
 
