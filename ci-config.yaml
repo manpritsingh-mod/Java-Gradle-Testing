@@ -2,14 +2,12 @@ project_language: java-gradle
 runUnitTests: true
 runLintTests: true
 runSmokeTests: true
-runSanityTests: true
-runRegressionTests: false  # Enable for full regression testing
+runSanityTests: true      # Enable for full regression testing
 
 # Test execution configuration
 test_execution:
   parallel: true
   fail_fast: false
-  timeout_minutes: 30
 
 # Tool configuration for different test types
 tool_for_unit_testing:
@@ -18,52 +16,17 @@ tool_for_unit_testing:
 tool_for_lint_testing:
   java: checkstyle
 
-# Gradle script integration
-gradle_script_class: "JavaGradleScript"
-
 # Test profiles configuration
 test_profiles:
   smoke:
     enabled: true
-    timeout_minutes: 10
     description: "Quick smoke tests to verify basic functionality"
   sanity:
     enabled: true
-    timeout_minutes: 15
     description: "Sanity tests to verify core features"
   regression:
     enabled: false
-    timeout_minutes: 60
     description: "Full regression test suite"
-
-# Build stages configuration
-build_stages:
-  - name: "dependency_check"
-    command: "installDependenciesCommand"
-    required: true
-  - name: "build"
-    command: "buildCommand"
-    required: true
-  - name: "lint"
-    command: "lintCommand"
-    required: true
-    args: ["checkstyle"]
-  - name: "unit_tests"
-    command: "testCommand"
-    required: true
-    args: ["junit5"]
-  - name: "smoke_tests"
-    command: "smokeTestCommand"
-    required: false
-    condition: "runSmokeTests"
-  - name: "sanity_tests"
-    command: "sanityTestCommand"
-    required: false
-    condition: "runSanityTests"
-  - name: "regression_tests"
-    command: "regressionTestCommand"
-    required: false
-    condition: "runRegressionTests"
 
 notifications:
   email:
