@@ -41,29 +41,13 @@ pipeline {
 
     post {
         failure {
-            script {
+            sh """
                 echo "BUILD FAILED — Sending webhook to Self-Healing Engine..."
-                def payload = """{
-                    "name": "${env.JOB_NAME}",
-                    "build": {
-                        "number": ${env.BUILD_NUMBER},
-                        "status": "FAILURE",
-                        "url": "${env.BUILD_URL}"
-                    }
-                }"""
-                try {
-                    httpRequest(
-                        url: "${env.HEALING_WEBHOOK}",
-                        httpMode: 'POST',
-                        contentType: 'APPLICATION_JSON',
-                        requestBody: payload,
-                        validResponseCodes: '200:299'
-                    )
-                    echo "Webhook sent successfully!"
-                } catch (Exception e) {
-                    echo "Webhook failed (non-critical): ${e.message}"
-                }
-            }
+                curl -s -X POST \\
+                    -H 'Content-Type: application/json' \\
+                    -d '{"name": "${env.JOB_NAME}", "build": {"number": ${env.BUILD_NUMBER}, "status": "FAILURE", "url": "${env.BUILD_URL}"}}' \\
+                    ${env.HEALING_WEBHOOK} || echo "Webhook call failed (non-critical)"
+            """
         }
         success {
             echo "BUILD SUCCESSFUL — No healing needed."
