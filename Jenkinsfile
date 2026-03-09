@@ -1,99 +1,72 @@
-@Library('My_UnifiedCI') _
-
 pipeline {
     agent any
-    
-    tools {
-        maven 'Maven 3.8.1'
-        gradle 'Gradle 7.5'
-        allure 'Allure-2.34.1'
+
+    options {
+        skipDefaultCheckout(true)
     }
-    
+
     environment {
-        PROJECT_LANGUAGE = ''
-        BUILD_TOOL = ''
-        RUN_UNIT_TESTS = ''
-        RUN_LINT_TESTS = ''
+        REPO_URL       = 'https://github.com/manpritsingh-mod/Java-Gradle-Testing.git'
+        REPO_BRANCH    = 'master'
+        HEALING_WEBHOOK = 'http://healing-engine:5000/webhook/jenkins'
     }
-    
+
     stages {
-        stage('Setup and Execution') {
+        stage('Checkout') {
             steps {
-                script {
-                    logger.info("---- STAGE: SETUP AND EXECUTION ----")
-                    
-                    // Read project configuration from YAML
-                    def config = core_utils.readProjectConfig()
-                    logger.info("Config map content: ${config}")
-                    
-                    if (config && !config.isEmpty()) {
-                        // Setup global environment
-                        core_utils.setupEnvironment()
-                        logger.info("Global environment setup completed")
-                        
-                        // Call appropriate template based on the project language
-                        logger.info("Calling template for: ${config.project_language}")
-                        switch (config.project_language) {
-                            case 'java-maven':
-                                logger.info("Executing Java Maven template")
-                                javaMaven_template(config)
-                                break
-                            case 'java-gradle':
-                                logger.info("Executing Java Gradle template")
-                                javaGradle_template(config)
-                                break
-                            case 'python':
-                                logger.info("Executing Python template")
-                                python_template(config)
-                                break
-                            default:
-                                error("Unsupported project language: ${config.project_language}")
-                        }
-                        
-                        logger.info("Project template execution completed")
-                        
-                    } else {
-                        error("PROJECT_CONFIG is empty or missing")
-                    }
+                git branch: "${env.REPO_BRANCH}", url: "${env.REPO_URL}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh '''
+                    chmod +x gradlew
+                    ./gradlew clean build -x test
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh './gradlew test'
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: '**/build/test-results/test/*.xml'
                 }
             }
         }
     }
-    
+
     post {
-        always {
-            script {
-                logger.info("=== SENDING NOTIFICATIONS ===")
-                
-                // Simple notification
-                def buildStatus = currentBuild.result ?: 'SUCCESS'
-                def config = [
-                    notifications: [
-                        email: [recipients: ["smanprit022@gmail.com"]]
-                    ]
-                ]
-                
-                notify.notifyBuildStatus(buildStatus, config)
-                logger.info("Notification sent successfully")
-            }
-        }
-        
-        success {
-            script {
-                logger.info("BUILD SUCCESSFUL!")
-            }
-        }
-        
         failure {
             script {
-                logger.error("BUILD FAILED!")
+                echo "BUILD FAILED — Sending webhook to Self-Healing Engine..."
+                def payload = """{
+                    "name": "${env.JOB_NAME}",
+                    "build": {
+                        "number": ${env.BUILD_NUMBER},
+                        "status": "FAILURE",
+                        "url": "${env.BUILD_URL}"
+                    }
+                }"""
+                try {
+                    httpRequest(
+                        url: "${env.HEALING_WEBHOOK}",
+                        httpMode: 'POST',
+                        contentType: 'APPLICATION_JSON',
+                        requestBody: payload,
+                        validResponseCodes: '200:299'
+                    )
+                    echo "Webhook sent successfully!"
+                } catch (Exception e) {
+                    echo "Webhook failed (non-critical): ${e.message}"
+                }
             }
         }
-        
-        unstable {
-            script {
-                logger.warning("BUILD UNSTABLE!")
-            }
+        success {
+            echo "BUILD SUCCESSFUL — No healing needed."
         }
     }
 }
